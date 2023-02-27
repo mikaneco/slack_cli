@@ -41,8 +41,8 @@ var configCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(configCmd)
 	// Define flags for the config command
-	configCmd.Flags().StringVar(&channel, "channel", "c", "The channel to send messages to")
-	configCmd.Flags().StringVar(&token, "token", "t", "The Slack API token")
+	configCmd.Flags().StringVar(&channel, "channel", "", "The channel to send messages to")
+	configCmd.Flags().StringVar(&token, "token", "", "The Slack API token")
 
 	// Mark flags as required
 	configCmd.MarkFlagRequired("channel")

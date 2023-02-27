@@ -1,8 +1,9 @@
 # slack_cli
 ## Usage
-Build
+### Build
+Building this application and moving bin file
 ```
-go build slk
+go build -o slk && mv slk /usr/local/bin/
 ```
 
 Command
