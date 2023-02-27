@@ -1,4 +1,7 @@
 # slack_cli
+## Description
+Sending slack message from terminal tool.
+
 ## Usage
 ### Build
 Building this application and moving bin file
@@ -6,18 +9,18 @@ Building this application and moving bin file
 go build -o slk && mv slk /usr/local/bin/
 ```
 
-Command
-### Setting Config
+### Command
+#### Setting Config
 ```
 slk config --channel "channel name" --token "token"
 ```
 
-### Sending message
+#### Sending message
 ```
 slk post -m "message"
 ```
 
-### Sending specific channel to message
+#### Sending specific channel to message
 ```
 slk post -c "channel" -m "message"
 ```
