@@ -1,6 +1,7 @@
 package config
 
 import (
+	"os"
 	"path/filepath"
 
 	"github.com/spf13/viper"
@@ -32,10 +33,15 @@ func (c *Config) GetToken() string {
 }
 
 func GetToken() string {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./config")
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
 
-	err := viper.ReadInConfig()
+	viper.SetConfigName("config")
+	viper.AddConfigPath(filepath.Join(homedir, ".slk"))
+
+	err = viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
@@ -44,10 +50,15 @@ func GetToken() string {
 }
 
 func GetChannel() string {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./config")
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
 
-	err := viper.ReadInConfig()
+	viper.SetConfigName("config")
+	viper.AddConfigPath(filepath.Join(homedir, ".slk"))
+
+	err = viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
@@ -56,17 +67,29 @@ func GetChannel() string {
 }
 
 func (c *Config) Save() error {
-	configFilePath := filepath.Join("./", "config", "config.json")
+
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+
+	// Create the config directory if it doesn't exist
+	configDir := filepath.Join(homedir, ".slk")
+	if _, err := os.Stat(configDir); os.IsNotExist(err) {
+		err := os.Mkdir(configDir, 0755)
+		if err != nil {
+			return err
+		}
+	}
+
+	configFilePath := filepath.Join(configDir, "config.json")
 
 	// Set the configuration values
 	viper.Set("channel_name", c.channel)
 	viper.Set("token", c.token)
 
-	// Save the configuration to the file
-	err := viper.WriteConfigAs(configFilePath)
-	if err != nil {
-		return err
-	}
+	// Write the configuration to disk
+	viper.WriteConfigAs(configFilePath)
 
 	return nil
 }
